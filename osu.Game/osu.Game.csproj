@@ -195,6 +195,7 @@
     <Compile Include="Database\BeatmapMetadata.cs" />
     <Compile Include="Database\BeatmapInfo.cs" />
     <Compile Include="Database\BaseDifficulty.cs" />
+    <Compile Include="Graphics\Containers\CarouselScrollContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)\osu-framework\osu.Framework\osu.Framework.csproj">

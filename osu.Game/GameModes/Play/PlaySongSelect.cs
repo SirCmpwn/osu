@@ -18,6 +18,7 @@ using osu.Framework.Graphics.UserInterface;
 using System.Threading.Tasks;
 using osu.Game.Beatmaps.Drawable;
 using osu.Framework.Extensions.IEnumerableExtensions;
+using osu.Game.Graphics.Containers;
 
 namespace osu.Game.GameModes.Play
 {
@@ -28,7 +29,7 @@ namespace osu.Game.GameModes.Play
         private BeatmapGroup selectedBeatmapGroup;
         // TODO: use currently selected track as bg
         protected override BackgroundMode CreateBackground() => new BackgroundModeCustom(@"Backgrounds/bg4");
-        private ScrollContainer scrollContainer;
+        private CarouselScrollContainer scrollContainer;
         private FlowContainer setList;
 
         /// <param name="database">Optionally provide a database to use instead of the OsuGame one.</param>
@@ -65,12 +66,14 @@ namespace osu.Game.GameModes.Play
                         },
                     }
                 },
-                scrollContainer = new ScrollContainer
+                scrollContainer = new CarouselScrollContainer
                 {
                     RelativeSizeAxes = Axes.Y,
                     Size = new Vector2(scrollWidth, 1),
                     Anchor = Anchor.CentreRight,
                     Origin = Anchor.CentreRight,
+                    Max = 0.25f,
+                    Centre = 0,
                     Children = new Drawable[]
                     {
                         setList = new FlowContainer
@@ -81,7 +84,8 @@ namespace osu.Game.GameModes.Play
                             Direction = FlowDirection.VerticalOnly,
                             Spacing = new Vector2(0, 5),
                         }
-                    }
+                    },
+                    CarouselContainer = setList,
                 },
                 new Container
                 {
