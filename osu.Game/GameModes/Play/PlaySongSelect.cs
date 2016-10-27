@@ -2,7 +2,6 @@
 //Licensed under the MIT Licence - https://raw.githubusercontent.com/ppy/osu/master/LICENCE
 
 using System;
-using System.Diagnostics;
 using osu.Framework.Configuration;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -17,7 +16,6 @@ using OpenTK.Graphics;
 using osu.Framework.Graphics.UserInterface;
 using System.Threading.Tasks;
 using osu.Game.Beatmaps.Drawable;
-using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Game.Graphics.Containers;
 
 namespace osu.Game.GameModes.Play
@@ -169,7 +167,11 @@ namespace osu.Game.GameModes.Play
             beatmapSet.Beatmaps = beatmapSet.Beatmaps.OrderBy(b => b.BaseDifficulty.OverallDifficulty).ToList();
             Schedule(() =>
             {
-                var group = new BeatmapGroup(beatmapSet) { SelectionChanged = selectBeatmap };
+                var group = new BeatmapGroup(beatmapSet)
+                {
+                    SelectionChanged = selectBeatmap,
+                    RelativePositionAxes = Axes.X,
+                };
                 setList.Add(group);
                 if (setList.Children.Count() == 1)
                     group.State = BeatmapGroupState.Expanded;
