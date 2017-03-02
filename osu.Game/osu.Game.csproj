@@ -281,6 +281,10 @@
     <Compile Include="Overlays\Pause\ResumeButton.cs" />
     <Compile Include="Overlays\Pause\RetryButton.cs" />
     <Compile Include="Overlays\Pause\QuitButton.cs" />
+    <Compile Include="Overlays\DirectOverlay.cs" />
+    <Compile Include="Overlays\Direct\Header.cs" />
+    <Compile Include="Overlays\Direct\DirectTriangles.cs" />
+    <Compile Include="Overlays\Direct\Search.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)\osu-framework\osu.Framework\osu.Framework.csproj">
@@ -301,6 +305,9 @@
   <ItemGroup />
   <ItemGroup />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Overlays\Direct\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

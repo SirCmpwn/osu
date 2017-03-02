@@ -38,6 +38,10 @@ namespace osu.Game
 
         private ChatOverlay chat;
 
+        private OptionsOverlay options;
+
+        private DirectOverlay direct;
+
         private MusicController musicController;
 
         private NotificationManager notificationManager;
@@ -61,14 +65,14 @@ namespace osu.Game
 
         string[] args;
 
-        private OptionsOverlay options;
-
         public OsuGame(string[] args = null)
         {
             this.args = args;
         }
 
         public void ToggleOptions() => options.ToggleVisibility();
+        
+        public void ToggleDirect() => direct.ToggleVisibility();
 
         [BackgroundDependencyLoader]
         private void load()
@@ -127,6 +131,7 @@ namespace osu.Game
             //overlay elements
             (chat = new ChatOverlay { Depth = 0 }).LoadAsync(this, overlayContent.Add);
             (options = new OptionsOverlay { Depth = -1 }).LoadAsync(this, overlayContent.Add);
+            (direct = new DirectOverlay { Depth = 0 }).LoadAsync(this, overlayContent.Add);
             (musicController = new MusicController()
             {
                 Depth = -2,
@@ -153,6 +158,7 @@ namespace osu.Game
             };
 
             Dependencies.Cache(options);
+            Dependencies.Cache(direct);
             Dependencies.Cache(musicController);
             Dependencies.Cache(notificationManager);
 
@@ -210,6 +216,9 @@ namespace osu.Game
                         return true;
                     case Key.O:
                         options.ToggleVisibility();
+                        return true;
+                    case Key.D:
+                        direct.ToggleVisibility();
                         return true;
                 }
             }

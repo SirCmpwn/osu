@@ -41,7 +41,6 @@ namespace osu.Game.Screens.Menu
                         buttons = new ButtonSystem
                         {
                             OnChart = delegate { Push(new ChartListing()); },
-                            OnDirect = delegate { Push(new OnlineListing()); },
                             OnEdit = delegate { Push(new EditSongSelect()); },
                             OnSolo = delegate { Push(new PlaySongSelect()); },
                             OnMulti = delegate { Push(new Lobby()); },
@@ -59,6 +58,7 @@ namespace osu.Game.Screens.Menu
             background.LoadAsync(game);
 
             buttons.OnSettings = game.ToggleOptions;
+            buttons.OnDirect = game.ToggleDirect;
         }
 
         protected override void OnEntering(Screen last)
