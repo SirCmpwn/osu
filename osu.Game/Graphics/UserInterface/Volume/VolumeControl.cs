@@ -33,7 +33,7 @@ namespace osu.Game.Graphics.UserInterface.Volume
 
             Children = new Drawable[]
             {
-                new FlowContainer
+                new FillFlowContainer
                 {
                     AutoSizeAxes = Axes.Both,
                     Anchor = Anchor.BottomRight,
@@ -87,7 +87,7 @@ namespace osu.Game.Graphics.UserInterface.Volume
             volumeMeterMusic.Bindable.BindTo(audio.VolumeTrack);
         }
 
-        ScheduledDelegate popOutDelegate;
+        private ScheduledDelegate popOutDelegate;
 
         private VolumeMeter volumeMeterEffect;
         private VolumeMeter volumeMeterMusic;

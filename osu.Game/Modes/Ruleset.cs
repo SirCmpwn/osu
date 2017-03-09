@@ -26,7 +26,9 @@ namespace osu.Game.Modes
 
         public virtual IEnumerable<BeatmapStatistic> GetBeatmapStatistics(WorkingBeatmap beatmap) => new BeatmapStatistic[] { };
 
-        public abstract ScoreProcessor CreateScoreProcessor(int hitObjectCount);
+        public abstract IEnumerable<Mod> GetModsFor(ModType type);
+
+        public abstract ScoreProcessor CreateScoreProcessor(int hitObjectCount = 0);
 
         public abstract HitRenderer CreateHitRendererWith(Beatmap beatmap);
 
@@ -40,6 +42,8 @@ namespace osu.Game.Modes
 
         public virtual FontAwesome Icon => FontAwesome.fa_question_circle;
 
+        public virtual Score CreateAutoplayScore(Beatmap beatmap) => null;
+
         public static Ruleset GetRuleset(PlayMode mode)
         {
             Type type;
@@ -49,5 +53,6 @@ namespace osu.Game.Modes
 
             return Activator.CreateInstance(type) as Ruleset;
         }
+
     }
 }

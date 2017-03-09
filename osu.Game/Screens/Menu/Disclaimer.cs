@@ -13,7 +13,7 @@ using OpenTK.Graphics;
 
 namespace osu.Game.Screens.Menu
 {
-    class Disclaimer : OsuScreen
+    internal class Disclaimer : OsuScreen
     {
         private Intro intro;
         private TextAwesome icon;
@@ -27,12 +27,12 @@ namespace osu.Game.Screens.Menu
 
             Children = new Drawable[]
             {
-                new FlowContainer
+                new FillFlowContainer
                 {
                     AutoSizeAxes = Axes.Both,
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    Direction = FlowDirections.Vertical,
+                    Direction = FillDirection.Vertical,
                     Spacing = new Vector2(0, 2),
                     Children = new Drawable[]
                     {

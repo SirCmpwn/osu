@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using OpenTK;
 using OpenTK.Graphics;
 using osu.Framework.Allocation;
-using osu.Framework.Audio;
 using osu.Framework.Audio.Track;
 using osu.Framework.Configuration;
 using osu.Framework.Graphics;
@@ -23,6 +22,7 @@ using osu.Game.Database;
 using osu.Game.Graphics;
 using osu.Framework.Graphics.Primitives;
 using osu.Game.Graphics.Sprites;
+using osu.Framework.Extensions.Color4Extensions;
 
 namespace osu.Game.Overlays
 {
@@ -59,7 +59,7 @@ namespace osu.Game.Overlays
 
         protected override bool OnDrag(InputState state)
         {
-            Vector2 change = (state.Mouse.Position - state.Mouse.PositionMouseDown.Value);
+            Vector2 change = state.Mouse.Position - state.Mouse.PositionMouseDown.Value;
 
             // Diminish the drag distance as we go further to simulate "rubber band" feeling.
             change *= (float)Math.Pow(change.Length, 0.7f) / change.Length;
@@ -246,14 +246,14 @@ namespace osu.Game.Overlays
             }
         }
 
-        void preferUnicode_changed(object sender, EventArgs e)
+        private void preferUnicode_changed(object sender, EventArgs e)
         {
             updateDisplay(current, TransformDirection.None);
         }
 
         private void workingChanged(object sender = null, EventArgs e = null)
         {
-            progress.IsEnabled = (beatmapSource.Value != null);
+            progress.IsEnabled = beatmapSource.Value != null;
             if (beatmapSource.Value == current) return;
             bool audioEquals = current?.BeatmapInfo?.AudioEquals(beatmapSource?.Value?.BeatmapInfo) ?? false;
             current = beatmapSource.Value;
@@ -323,7 +323,7 @@ namespace osu.Game.Overlays
             updateDisplay(current, isNext ? TransformDirection.Next : TransformDirection.Prev);
         }
 
-        Action pendingBeatmapSwitch;
+        private Action pendingBeatmapSwitch;
 
         private void updateDisplay(WorkingBeatmap beatmap, TransformDirection direction)
         {
@@ -384,7 +384,7 @@ namespace osu.Game.Overlays
             base.Dispose(isDisposing);
         }
 
-        const float transition_length = 800;
+        private const float transition_length = 800;
 
         protected override void PopIn()
         {
