@@ -3,28 +3,28 @@
 
 using System;
 using System.Collections.Generic;
-using osu.Framework.Allocation;
+using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
+using osu.Framework.Allocation;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Primitives;
 using osu.Framework.Graphics.Sprites;
-using osu.Game.Beatmaps;
-using osu.Game.Database;
-using osu.Framework.Graphics.Colour;
-using osu.Game.Beatmaps.Drawables;
-using System.Linq;
-using osu.Framework.Extensions.IEnumerableExtensions;
+using osu.Framework.Graphics.Transforms;
 using osu.Framework.MathUtils;
+using osu.Game.Beatmaps;
+using osu.Game.Beatmaps.Drawables;
+using osu.Game.Database;
 using osu.Game.Graphics;
 using osu.Game.Graphics.Sprites;
 using osu.Game.Modes;
 
 namespace osu.Game.Screens.Select
 {
-    internal class BeatmapInfoWedge : Container
+    internal class BeatmapInfoWedge : OverlayContainer
     {
         private static readonly Vector2 wedged_container_shear = new Vector2(0.15f, 0);
 
@@ -53,11 +53,32 @@ namespace osu.Game.Screens.Select
             this.game = game;
         }
 
+        protected override bool HideOnEscape => false;
+
+        protected override void PopIn()
+        {
+            MoveToX(0, 800, EasingTypes.OutQuint);
+            RotateTo(0, 800, EasingTypes.OutQuint);
+        }
+
+        protected override void PopOut()
+        {
+            MoveToX(-100, 800, EasingTypes.InQuint);
+            RotateTo(10, 800, EasingTypes.InQuint);
+        }
+
         public void UpdateBeatmap(WorkingBeatmap beatmap)
         {
             if (beatmap?.BeatmapInfo == null)
+            {
+                State = Visibility.Hidden;
+                beatmapInfoContainer?.FadeOut(250);
+                beatmapInfoContainer?.Expire();
+                beatmapInfoContainer = null;
                 return;
+            }
 
+            State = Visibility.Visible;
             var lastContainer = beatmapInfoContainer;
 
             float newDepth = lastContainer?.Depth + 1 ?? 0;
@@ -84,7 +105,7 @@ namespace osu.Game.Screens.Select
                 }));
 
                 //get statistics fromt he current ruleset.
-                Ruleset.GetRuleset(beatmap.BeatmapInfo.Mode).GetBeatmapStatistics(beatmap).ForEach(s => labels.Add(new InfoLabel(s)));
+                labels.AddRange(Ruleset.GetRuleset(beatmap.BeatmapInfo.Mode).GetBeatmapStatistics(beatmap).Select(s => new InfoLabel(s)));
             }
 
             (beatmapInfoContainer = new BufferedContainer
@@ -191,7 +212,7 @@ namespace osu.Game.Screens.Select
 
         private string getBPMRange(Beatmap beatmap)
         {
-            double bpmMax = beatmap.BPMMaximum; 
+            double bpmMax = beatmap.BPMMaximum;
             double bpmMin = beatmap.BPMMinimum;
 
             if (Precision.AlmostEquals(bpmMin, bpmMax)) return Math.Round(bpmMin) + "bpm";

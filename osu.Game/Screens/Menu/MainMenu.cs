@@ -10,6 +10,7 @@ using osu.Game.Graphics.Containers;
 using osu.Game.Screens.Backgrounds;
 using osu.Game.Screens.Charts;
 using osu.Game.Screens.Direct;
+using osu.Game.Screens.Edit;
 using osu.Game.Screens.Multiplayer;
 using OpenTK;
 using osu.Game.Screens.Select;
@@ -43,7 +44,8 @@ namespace osu.Game.Screens.Menu
                         buttons = new ButtonSystem
                         {
                             OnChart = delegate { Push(new ChartListing()); },
-                            OnEdit = delegate { Push(new EditSongSelect()); },
+                            OnDirect = delegate { Push(new OnlineListing()); },
+                            OnEdit = delegate { Push(new Editor()); },
                             OnSolo = delegate { Push(new PlaySongSelect()); },
                             OnMulti = delegate { Push(new Lobby()); },
                             OnTest  = delegate { Push(new TestBrowser()); },

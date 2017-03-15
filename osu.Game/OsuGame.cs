@@ -267,13 +267,13 @@ namespace osu.Game
             return false;
         }
 
-        public event Action<Screen> ModeChanged;
+        public event Action<Screen> ScreenChanged;
 
         private Container mainContent;
 
         private Container overlayContent;
 
-        private void modeChanged(Screen newScreen)
+        private void screenChanged(Screen newScreen)
         {
             //central game mode change logic.
             if ((newScreen as OsuScreen)?.ShowOverlays != true)
@@ -290,7 +290,7 @@ namespace osu.Game
             if (newScreen is MainMenu)
                 Cursor.FadeIn(100);
 
-            ModeChanged?.Invoke(newScreen);
+            ScreenChanged?.Invoke(newScreen);
 
             if (newScreen == null)
                 Exit();
@@ -324,12 +324,12 @@ namespace osu.Game
             newScreen.ModePushed += screenAdded;
             newScreen.Exited += screenRemoved;
 
-            modeChanged(newScreen);
+            screenChanged(newScreen);
         }
 
         private void screenRemoved(Screen newScreen)
         {
-            modeChanged(newScreen);
+            screenChanged(newScreen);
         }
     }
 }

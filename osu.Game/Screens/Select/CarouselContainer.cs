@@ -57,6 +57,7 @@ namespace osu.Game.Screens.Select
         public void RemoveGroup(BeatmapGroup group)
         {
             groups.Remove(group);
+            panels.Remove(group.Header);
             foreach (var p in group.BeatmapPanels)
                 panels.Remove(p);
 
@@ -162,13 +163,13 @@ namespace osu.Game.Screens.Select
             switch (mode)
             {
                 case FilterControl.SortMode.Artist:
-                    sortedGroups.Sort((x, y) => string.Compare(x.BeatmapSet.Metadata.Artist, y.BeatmapSet.Metadata.Artist));
+                    sortedGroups.Sort((x, y) => string.Compare(x.BeatmapSet.Metadata.Artist, y.BeatmapSet.Metadata.Artist, StringComparison.InvariantCultureIgnoreCase));
                     break;
                 case FilterControl.SortMode.Title:
-                    sortedGroups.Sort((x, y) => string.Compare(x.BeatmapSet.Metadata.Title, y.BeatmapSet.Metadata.Title));
+                    sortedGroups.Sort((x, y) => string.Compare(x.BeatmapSet.Metadata.Title, y.BeatmapSet.Metadata.Title, StringComparison.InvariantCultureIgnoreCase));
                     break;
                 case FilterControl.SortMode.Author:
-                    sortedGroups.Sort((x, y) => string.Compare(x.BeatmapSet.Metadata.Author, y.BeatmapSet.Metadata.Author));
+                    sortedGroups.Sort((x, y) => string.Compare(x.BeatmapSet.Metadata.Author, y.BeatmapSet.Metadata.Author, StringComparison.InvariantCultureIgnoreCase));
                     break;
                 case FilterControl.SortMode.Difficulty:
                     sortedGroups.Sort((x, y) =>

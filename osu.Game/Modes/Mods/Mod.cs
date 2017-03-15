@@ -1,11 +1,13 @@
 ﻿// Copyright (c) 2007-2017 ppy Pty Ltd <contact@ppy.sh>.
 // Licensed under the MIT Licence - https://raw.githubusercontent.com/ppy/osu/master/LICENCE
 
-using System;
+using osu.Game.Beatmaps;
 using osu.Game.Graphics;
-using osu.Game.Screens.Play;
+using osu.Game.Modes.Objects;
+using osu.Game.Modes.UI;
+using System;
 
-namespace osu.Game.Modes
+namespace osu.Game.Modes.Mods
 {
     /// <summary>
     /// The base class for gameplay modifiers.
@@ -41,12 +43,6 @@ namespace osu.Game.Modes
         /// The mods this mod cannot be enabled with.
         /// </summary>
         public virtual Type[] IncompatibleMods => new Type[] { };
-
-        /// <summary>
-        /// Direct access to the Player before load has run.
-        /// </summary>
-        /// <param name="player"></param>
-        public virtual void PlayerLoading(Player player) { }
     }
 
     public class MultiMod : Mod
@@ -65,7 +61,7 @@ namespace osu.Game.Modes
         public override string Description => "You can't fail, no matter what.";
         public override double ScoreMultiplier => 0.5;
         public override bool Ranked => true;
-        public override Type[] IncompatibleMods => new[] { typeof(ModRelax), typeof(ModSuddenDeath), typeof(ModPerfect) };
+        public override Type[] IncompatibleMods => new[] { typeof(ModRelax), typeof(ModSuddenDeath), typeof(ModAutoplay) };
     }
 
     public abstract class ModEasy : Mod
@@ -100,7 +96,7 @@ namespace osu.Game.Modes
         public override string Description => "Miss a note and fail.";
         public override double ScoreMultiplier => 1;
         public override bool Ranked => true;
-        public override Type[] IncompatibleMods => new[] { typeof(ModNoFail), typeof(ModRelax), typeof(ModAutoplay), typeof(ModCinema) };
+        public override Type[] IncompatibleMods => new[] { typeof(ModNoFail), typeof(ModRelax), typeof(ModAutoplay) };
     }
 
     public abstract class ModDoubleTime : Mod
@@ -117,7 +113,7 @@ namespace osu.Game.Modes
         public override string Name => "Relax";
         public override FontAwesome Icon => FontAwesome.fa_osu_mod_relax;
         public override double ScoreMultiplier => 0;
-        public override Type[] IncompatibleMods => new[] { typeof(ModAutoplay), typeof(ModCinema), typeof(ModNoFail), typeof(ModSuddenDeath), typeof(ModPerfect) };
+        public override Type[] IncompatibleMods => new[] { typeof(ModAutoplay), typeof(ModNoFail), typeof(ModSuddenDeath) };
     }
 
     public abstract class ModHalfTime : Mod
@@ -126,7 +122,7 @@ namespace osu.Game.Modes
         public override FontAwesome Icon => FontAwesome.fa_osu_mod_halftime;
         public override string Description => "Less zoom";
         public override bool Ranked => true;
-        public override Type[] IncompatibleMods => new[] { typeof(ModDoubleTime), typeof(ModNightcore) };
+        public override Type[] IncompatibleMods => new[] { typeof(ModDoubleTime) };
     }
 
     public abstract class ModNightcore : ModDoubleTime
@@ -150,12 +146,17 @@ namespace osu.Game.Modes
         public override FontAwesome Icon => FontAwesome.fa_osu_mod_auto;
         public override string Description => "Watch a perfect automated play through the song";
         public override double ScoreMultiplier => 0;
-        public override Type[] IncompatibleMods => new[] { typeof(ModRelax), typeof(ModSuddenDeath), typeof(ModPerfect) };
+        public override Type[] IncompatibleMods => new[] { typeof(ModRelax), typeof(ModSuddenDeath), typeof(ModNoFail) };
+    }
 
-        public override void PlayerLoading(Player player)
+    public abstract class ModAutoplay<T> : ModAutoplay, IApplicableMod<T>
+        where T : HitObject
+    {
+        protected abstract Score CreateReplayScore(Beatmap<T> beatmap);
+
+        public void Apply(HitRenderer<T> hitRenderer)
         {
-            base.PlayerLoading(player);
-            player.ReplayInputHandler = Ruleset.GetRuleset(player.Beatmap.PlayMode).CreateAutoplayScore(player.Beatmap.Beatmap)?.Replay?.GetInputHandler();
+            hitRenderer.InputManager.ReplayInputHandler = CreateReplayScore(hitRenderer.Beatmap)?.Replay?.GetInputHandler();
         }
     }
 
@@ -169,12 +170,5 @@ namespace osu.Game.Modes
     {
         public override string Name => "Cinema";
         public override FontAwesome Icon => FontAwesome.fa_osu_mod_cinema;
-    }
-
-    public enum ModType
-    {
-        DifficultyReduction,
-        DifficultyIncrease,
-        Special,
     }
 }

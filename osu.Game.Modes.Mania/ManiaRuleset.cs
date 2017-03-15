@@ -1,24 +1,21 @@
 ﻿// Copyright (c) 2007-2017 ppy Pty Ltd <contact@ppy.sh>.
 // Licensed under the MIT Licence - https://raw.githubusercontent.com/ppy/osu/master/LICENCE
 
-using System.Collections.Generic;
-using osu.Game.Graphics;
-using osu.Game.Modes.Mania.UI;
-using osu.Game.Modes.Objects;
-using osu.Game.Modes.Osu.UI;
-using osu.Game.Modes.UI;
 using osu.Game.Beatmaps;
+using osu.Game.Graphics;
+using osu.Game.Modes.Mania.Mods;
+using osu.Game.Modes.Mania.UI;
+using osu.Game.Modes.Mods;
+using osu.Game.Modes.Objects;
+using osu.Game.Modes.UI;
+using osu.Game.Screens.Play;
+using System.Collections.Generic;
 
 namespace osu.Game.Modes.Mania
 {
     public class ManiaRuleset : Ruleset
     {
-        public override ScoreOverlay CreateScoreOverlay() => new OsuScoreOverlay();
-
-        public override HitRenderer CreateHitRendererWith(Beatmap beatmap) => new ManiaHitRenderer
-        {
-            Beatmap = beatmap,
-        };
+        public override HitRenderer CreateHitRendererWith(WorkingBeatmap beatmap) => new ManiaHitRenderer(beatmap);
 
         public override IEnumerable<Mod> GetModsFor(ModType type)
         {
@@ -52,7 +49,14 @@ namespace osu.Game.Modes.Mania
                                 new ManiaModNightcore(),
                             },
                         },
-                        new ManiaModHidden(),
+                        new MultiMod
+                        {
+                            Mods = new Mod[]
+                            {
+                                new ManiaModFadeIn(),
+                                new ManiaModHidden(),
+                            }
+                        },
                         new ManiaModFlashlight(),
                     };
 
@@ -74,8 +78,8 @@ namespace osu.Game.Modes.Mania
                                 new ManiaModKey3(),
                             },
                         },
-                        new ManiaModKeyCoop(),
                         new ManiaModRandom(),
+                        new ManiaModKeyCoop(),
                         new MultiMod
                         {
                             Mods = new Mod[]
@@ -93,7 +97,11 @@ namespace osu.Game.Modes.Mania
 
         protected override PlayMode PlayMode => PlayMode.Mania;
 
+        public override string Description => "osu!mania";
+
         public override FontAwesome Icon => FontAwesome.fa_osu_mania_o;
+
+        public override IEnumerable<KeyCounter> CreateGameplayKeys() => new KeyCounter[] { /* Todo: Should be keymod specific */ };
 
         public override ScoreProcessor CreateScoreProcessor(int hitObjectCount = 0) => null;
 
