@@ -28,7 +28,7 @@ namespace osu.Game.Overlays
                     Colour = OsuColour.FromHex(@"445568")
                 },
                 new DirectTriangles { RelativeSizeAxes = Axes.Both },
-                new FlowContainer
+                new FillFlowContainer
                 {
                     RelativeSizeAxes = Axes.Both,
                     Children = new Drawable[]

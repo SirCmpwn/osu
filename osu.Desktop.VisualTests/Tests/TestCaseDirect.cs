@@ -6,8 +6,6 @@ namespace osu.Desktop.VisualTests.Tests
 {
     public class TestCaseDirect : TestCase
     {
-        public override string Name => @"Direct";
-
         public override string Description => @"Tests the osu!direct overlay";
 
         private DirectOverlay direct;

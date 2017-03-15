@@ -31,9 +31,9 @@ namespace osu.Game.Overlays.Direct
                     RelativeSizeAxes = Axes.Both,
                     Colour = OsuColour.FromHex(@"3a4551"),
                 },
-                new FlowContainer
+                new FillFlowContainer
                 {
-                    Direction = FlowDirections.Vertical,
+                    Direction = FillDirection.Vertical,
                     RelativeSizeAxes = Axes.X,
                     AutoSizeAxes = Axes.Y,
                     Margin = new MarginPadding
@@ -43,9 +43,9 @@ namespace osu.Game.Overlays.Direct
                     },
                     Children = new Drawable[]
                     {
-                        new FlowContainer
+                        new FillFlowContainer
                         {
-                            Direction = FlowDirections.Horizontal,
+                            Direction = FillDirection.Horizontal,
                             RelativeSizeAxes = Axes.X,
                             AutoSizeAxes = Axes.Y,
                             Spacing = new Vector2(5, 0),

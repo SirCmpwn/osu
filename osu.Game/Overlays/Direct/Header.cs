@@ -28,9 +28,9 @@ namespace osu.Game.Overlays.Direct
                     RelativeSizeAxes = Axes.Both,
                     Colour = OsuColour.FromHex(@"252f3a"),
                 },
-                new FlowContainer
+                new FillFlowContainer
                 {
-                    Direction = FlowDirections.Vertical,
+                    Direction = FillDirection.Vertical,
                     RelativeSizeAxes = Axes.X,
                     AutoSizeAxes = Axes.Y,
                     Margin = new MarginPadding
