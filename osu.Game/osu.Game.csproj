@@ -323,7 +323,6 @@
     <Compile Include="Configuration\ConfineMouseMode.cs" />
     <Compile Include="Graphics\OsuColour.cs" />
     <Compile Include="Screens\Select\FilterControl.cs" />
-    <Compile Include="Screens\Select\SearchTextBox.cs" />
     <Compile Include="Screens\Select\FooterButton.cs" />
     <Compile Include="Screens\Select\Footer.cs" />
     <Compile Include="Overlays\DirectOverlay.cs" />
@@ -354,8 +353,12 @@
     <Compile Include="Overlays\WaveOverlayContainer.cs" />
     <Compile Include="Screens\Select\Options\BeatmapOptionsButton.cs" />
     <Compile Include="Screens\Select\Options\BeatmapOptionsOverlay.cs" />
+    <Compile Include="Screens\Select/SearchTextBox.cs" />
     <Compile Include="Graphics\UserInterface\OsuTabControl.cs" />
     <Compile Include="Graphics\UserInterface\OsuTabItem.cs" />
+    <Compile Include="Graphics\UserInterface\OsuDropDownEnumMenu.cs" />
+    <Compile Include="Overlays\Direct\SlimDropDownMenu.cs" />
+    <Compile Include="Overlays\Direct\DirectTabControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)\osu-framework\osu.Framework\osu.Framework.csproj">

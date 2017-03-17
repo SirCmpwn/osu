@@ -32,6 +32,8 @@ namespace osu.Game.Graphics.UserInterface
             }
         }
 
+        protected TextAwesome Icon;
+
         public OsuDropDownHeader()
         {
             Foreground.Padding = new MarginPadding(4);
@@ -48,7 +50,7 @@ namespace osu.Game.Graphics.UserInterface
                     Anchor = Anchor.CentreLeft,
                     Origin = Anchor.CentreLeft,
                 },
-                new TextAwesome
+                Icon = new TextAwesome
                 {
                     Icon = FontAwesome.fa_chevron_down,
                     Anchor = Anchor.CentreRight,

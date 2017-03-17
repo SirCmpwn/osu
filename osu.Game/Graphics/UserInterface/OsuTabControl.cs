@@ -48,7 +48,7 @@ namespace osu.Game.Graphics.UserInterface
                 var dropDown = DropDown as OsuTabDropDownMenu<T>;
                 if (dropDown != null)
                     dropDown.AccentColour = value;
-                foreach (var item in TabContainer.Children.OfType<OsuTabItem<T>>())
+                foreach (var item in TabMap.Values.OfType<OsuTabItem<T>>())
                     item.AccentColour = value;
             }
         }

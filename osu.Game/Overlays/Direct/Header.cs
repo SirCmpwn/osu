@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using OpenTK;
 using OpenTK.Graphics;
 using osu.Framework.Allocation;
@@ -7,6 +8,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Primitives;
 using osu.Framework.Graphics.Sprites;
 using osu.Game.Graphics;
+using Container = osu.Framework.Graphics.Containers.Container;
 
 namespace osu.Game.Overlays.Direct
 {
@@ -17,9 +19,20 @@ namespace osu.Game.Overlays.Direct
             RelativeSizeAxes = Axes.X;
             AutoSizeAxes = Axes.Y;
         }
+
+        private enum DirectTab
+        {
+            Search,
+            [Description("Newest Maps")]
+            New,
+            [Description("Top Rated")]
+            Top,
+            [Description("Most Played")]
+            MostPlayed,
+        }
         
         [BackgroundDependencyLoader(permitNulls: true)]
-        private void load(OsuGame game)
+        private void load(OsuGame game, OsuColour colours)
         {
             Children = new Drawable[]
             {
@@ -74,7 +87,12 @@ namespace osu.Game.Overlays.Direct
                                 },
                             }
                         },
-                        new SpriteText { Text = "TODO: tabs" }
+                        new DirectTabControl<DirectTab>
+                        {
+                            BackgroundBorderColour = colours.Green,
+                            BorderColour = Color4.White,
+                            AutoSize = true,
+                        },
                     }
                 }
             };

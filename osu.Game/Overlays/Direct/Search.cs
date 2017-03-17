@@ -8,7 +8,9 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Primitives;
 using osu.Framework.Graphics.Sprites;
 using osu.Game.Graphics;
+using osu.Game.Graphics.UserInterface;
 using osu.Game.Modes;
+using osu.Game.Screens.Select;
 
 namespace osu.Game.Overlays.Direct
 {
@@ -20,8 +22,29 @@ namespace osu.Game.Overlays.Direct
             AutoSizeAxes = Axes.Y;
         }
         
+        public enum SortCriteria
+        {
+            Title,
+            Artist,
+            Creator,
+            Difficulty,
+            Ranked,
+            Rating,
+            Plays,
+        }
+
+        public enum FilterCriteria
+        {
+            Ranked,
+            Qualified,
+            Loved,
+            Pending,
+        }
+
+        private SortCriteria sortCriteria;
+        
         [BackgroundDependencyLoader(permitNulls: true)]
-        private void load(OsuGame game)
+        private void load(OsuGame game, OsuColour colours)
         {
             Bindable<PlayMode> playMode = game?.PlayMode ?? new Bindable<PlayMode>();
             Children = new Drawable[]
@@ -36,20 +59,25 @@ namespace osu.Game.Overlays.Direct
                     Direction = FillDirection.Vertical,
                     RelativeSizeAxes = Axes.X,
                     AutoSizeAxes = Axes.Y,
-                    Margin = new MarginPadding
+                    Padding = new MarginPadding
                     {
+                        Top = 5,
                         Left = DirectOverlay.HORIZONTAL_MARGIN,
                         Right = DirectOverlay.HORIZONTAL_MARGIN,
                     },
+                    Spacing = new Vector2(0, 5),
                     Children = new Drawable[]
                     {
+                        new SearchTextBox
+                        {
+                            RelativeSizeAxes = Axes.X
+                        },
                         new FillFlowContainer
                         {
                             Direction = FillDirection.Horizontal,
                             RelativeSizeAxes = Axes.X,
                             AutoSizeAxes = Axes.Y,
                             Spacing = new Vector2(5, 0),
-                            Padding = new MarginPadding { Top = 5 },
                             Children = new[]
                             {
                                 new ModeToggleButton(playMode, PlayMode.Osu),
@@ -60,11 +88,24 @@ namespace osu.Game.Overlays.Direct
                         },
                         new Container
                         {
-                            AutoSizeAxes = Axes.Both,
-                            Margin = new MarginPadding { Top = 5 },
-                            Children = new[]
+                            AutoSizeAxes = Axes.Y,
+                            RelativeSizeAxes = Axes.X,
+                            Children = new Drawable[]
                             {
-                                new SpriteText { Text = "TODO: tabs" }
+                                new DirectTabControl<SortCriteria>
+                                {
+                                    RelativeSizeAxes = Axes.X,
+                                    Width = 0.5f,
+                                    BorderColour = colours.Yellow,
+                                    BorderHeight = 4,
+                                },
+                                new SlimDropDownMenu<FilterCriteria>
+                                {
+                                    Width = 200,
+                                    Anchor = Anchor.TopRight,
+                                    Origin = Anchor.TopRight,
+                                    SelectedValue = FilterCriteria.Ranked
+                                },
                             }
                         }
                     }
@@ -74,7 +115,7 @@ namespace osu.Game.Overlays.Direct
                     RelativeSizeAxes = Axes.X,
                     RelativePositionAxes = Axes.Y,
                     Position = new Vector2(0, 1),
-                    Colour = OsuColour.FromHex(@"facc39"),
+                    Colour = colours.Yellow,
                     Height = 1,
                 },
             };
