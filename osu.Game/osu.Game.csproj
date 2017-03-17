@@ -74,6 +74,8 @@
     <Compile Include="Beatmaps\Drawables\BeatmapBackgroundSprite.cs" />
     <Compile Include="Beatmaps\DifficultyCalculator.cs" />
     <Compile Include="Beatmaps\IBeatmapCoverter.cs" />
+    <Compile Include="Beatmaps\IBeatmapProcessor.cs" />
+    <Compile Include="Beatmaps\Timing\TimingInfo.cs" />
     <Compile Include="Database\ScoreDatabase.cs" />
     <Compile Include="Graphics\Backgrounds\Triangles.cs" />
     <Compile Include="Graphics\Cursor\CursorTrail.cs" />
@@ -93,12 +95,32 @@
     <Compile Include="Modes\LegacyReplay.cs" />
     <Compile Include="Modes\Mods\IApplicableMod.cs" />
     <Compile Include="Modes\Mods\ModType.cs" />
+    <Compile Include="Modes\Objects\Drawables\ArmedState.cs" />
+    <Compile Include="Modes\Objects\Drawables\HitResult.cs" />
+    <Compile Include="Modes\Objects\BezierApproximator.cs" />
+    <Compile Include="Modes\Objects\CircularArcApproximator.cs" />
+    <Compile Include="Modes\Objects\CurvedHitObject.cs" />
+    <Compile Include="Modes\Objects\Legacy\LegacyHit.cs" />
+    <Compile Include="Modes\Objects\LegacyHitObjectParser.cs" />
+    <Compile Include="Modes\Objects\Legacy\LegacyHold.cs" />
+    <Compile Include="Modes\Objects\Legacy\LegacySlider.cs" />
+    <Compile Include="Modes\Objects\Legacy\LegacySpinner.cs" />
+    <Compile Include="Modes\Objects\SliderCurve.cs" />
+    <Compile Include="Modes\Objects\Types\CurveType.cs" />
     <Compile Include="Modes\Objects\Drawables\IDrawableHitObjectWithProxiedApproach.cs" />
+    <Compile Include="Modes\Judgements\JudgementInfo.cs" />
     <Compile Include="Modes\Objects\HitObjectParser.cs" />
-    <Compile Include="Modes\Objects\NullHitObjectParser.cs" />
+    <Compile Include="Modes\Objects\Types\IHasCombo.cs" />
+    <Compile Include="Modes\Objects\Types\IHasEndTime.cs" />
+    <Compile Include="Modes\Objects\Types\IHasDistance.cs" />
+    <Compile Include="Modes\Objects\Types\IHasCurve.cs" />
+    <Compile Include="Modes\Objects\Types\IHasRepeats.cs" />
+    <Compile Include="Modes\Objects\Types\IHasPosition.cs" />
+    <Compile Include="Modes\Objects\Types\IHasHold.cs" />
+    <Compile Include="Modes\Objects\Legacy\LegacyHitObjectType.cs" />
     <Compile Include="Modes\Replay.cs" />
     <Compile Include="Modes\Score.cs" />
-    <Compile Include="Modes\ScoreProcesssor.cs" />
+    <Compile Include="Modes\ScoreProcessor.cs" />
     <Compile Include="Modes\UI\HealthDisplay.cs" />
     <Compile Include="Modes\UI\HudOverlay.cs" />
     <Compile Include="Modes\UI\StandardHealthDisplay.cs" />
@@ -175,6 +197,8 @@
     <Compile Include="Screens\Play\SkipButton.cs" />
     <Compile Include="Modes\UI\StandardComboCounter.cs" />
     <Compile Include="Screens\Select\CarouselContainer.cs" />
+    <Compile Include="Screens\Select\Filter\GroupMode.cs" />
+    <Compile Include="Screens\Select\Filter\SortMode.cs" />
     <Compile Include="Screens\Select\MatchSongSelect.cs" />
     <Compile Include="Screens\OsuGameScreen.cs" />
     <Compile Include="Beatmaps\Drawables\BeatmapGroup.cs" />
@@ -330,6 +354,8 @@
     <Compile Include="Overlays\WaveOverlayContainer.cs" />
     <Compile Include="Screens\Select\Options\BeatmapOptionsButton.cs" />
     <Compile Include="Screens\Select\Options\BeatmapOptionsOverlay.cs" />
+    <Compile Include="Graphics\UserInterface\OsuTabControl.cs" />
+    <Compile Include="Graphics\UserInterface\OsuTabItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)\osu-framework\osu.Framework\osu.Framework.csproj">

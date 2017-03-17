@@ -5,7 +5,6 @@ using OpenTK.Input;
 using osu.Game.Beatmaps;
 using osu.Game.Graphics;
 using osu.Game.Modes.Mods;
-using osu.Game.Modes.Objects;
 using osu.Game.Modes.Taiko.Mods;
 using osu.Game.Modes.Taiko.UI;
 using osu.Game.Modes.UI;
@@ -89,10 +88,8 @@ namespace osu.Game.Modes.Taiko
             new KeyCounterKeyboard(Key.K)
         };
 
-        public override ScoreProcessor CreateScoreProcessor(int hitObjectCount = 0) => null;
-
-        public override HitObjectParser CreateHitObjectParser() => new NullHitObjectParser();
-
         public override DifficultyCalculator CreateDifficultyCalculator(Beatmap beatmap) => new TaikoDifficultyCalculator(beatmap);
+
+        public override ScoreProcessor CreateScoreProcessor() => new TaikoScoreProcessor();
     }
 }

@@ -7,7 +7,6 @@ using osu.Game.Database;
 using osu.Game.Modes;
 using osu.Game.Modes.Objects;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace osu.Game.Beatmaps
 {
@@ -18,8 +17,14 @@ namespace osu.Game.Beatmaps
         where T : HitObject
     {
         public BeatmapInfo BeatmapInfo;
-        public List<ControlPoint> ControlPoints;
-        public List<Color4> ComboColors;
+        public TimingInfo TimingInfo = new TimingInfo();
+        public readonly List<Color4> ComboColors = new List<Color4>
+        {
+            new Color4(17, 136, 170, 255),
+            new Color4(102, 136, 0, 255),
+            new Color4(204, 102, 0, 255),
+            new Color4(121, 9, 13, 255)
+        };
 
         public BeatmapMetadata Metadata => BeatmapInfo?.Metadata ?? BeatmapInfo?.BeatmapSet?.Metadata;
 
@@ -34,50 +39,24 @@ namespace osu.Game.Beatmaps
         /// <param name="original">The original beatmap to use the parameters of.</param>
         public Beatmap(Beatmap original = null)
         {
-            BeatmapInfo = original?.BeatmapInfo;
-            ControlPoints = original?.ControlPoints;
-            ComboColors = original?.ComboColors;
+            BeatmapInfo = original?.BeatmapInfo ?? BeatmapInfo;
+            TimingInfo = original?.TimingInfo ?? TimingInfo;
+            ComboColors = original?.ComboColors ?? ComboColors;
         }
 
-        public double BPMMaximum => 60000 / (ControlPoints?.Where(c => c.BeatLength != 0).OrderBy(c => c.BeatLength).FirstOrDefault() ?? ControlPoint.Default).BeatLength;
-        public double BPMMinimum => 60000 / (ControlPoints?.Where(c => c.BeatLength != 0).OrderByDescending(c => c.BeatLength).FirstOrDefault() ?? ControlPoint.Default).BeatLength;
-        public double BPMMode => BPMAt(ControlPoints.Where(c => c.BeatLength != 0).GroupBy(c => c.BeatLength).OrderByDescending(grp => grp.Count()).First().First().Time);
-
-        public double BPMAt(double time)
+        /// <summary>
+        /// Finds the slider velocity at a time.
+        /// </summary>
+        /// <param name="time">The time to find the slider velocity at.</param>
+        /// <returns>The slider velocity in positional length units.</returns>
+        public double SliderVelocityAt(double time)
         {
-            return 60000 / BeatLengthAt(time);
-        }
+            double scoringDistance = 100 * BeatmapInfo.Difficulty.SliderMultiplier;
+            double beatDistance = TimingInfo.BeatDistanceAt(time);
 
-        public double BeatLengthAt(double time)
-        {
-            ControlPoint overridePoint;
-            ControlPoint timingPoint = TimingPointAt(time, out overridePoint);
-            return timingPoint.BeatLength;
-        }
-
-        public ControlPoint TimingPointAt(double time, out ControlPoint overridePoint)
-        {
-            overridePoint = null;
-
-            ControlPoint timingPoint = null;
-            foreach (var controlPoint in ControlPoints)
-            {
-                // Some beatmaps have the first timingPoint (accidentally) start after the first HitObject(s).
-                // This null check makes it so that the first ControlPoint that makes a timing change is used as
-                // the timingPoint for those HitObject(s).
-                if (controlPoint.Time <= time || timingPoint == null)
-                {
-                    if (controlPoint.TimingChange)
-                    {
-                        timingPoint = controlPoint;
-                        overridePoint = null;
-                    }
-                    else overridePoint = controlPoint;
-                }
-                else break;
-            }
-
-            return timingPoint ?? ControlPoint.Default;
+            if (beatDistance > 0)
+                return scoringDistance / beatDistance * 1000;
+            return scoringDistance;
         }
     }
 

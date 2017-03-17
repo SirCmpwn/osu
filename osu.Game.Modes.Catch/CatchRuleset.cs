@@ -7,7 +7,6 @@ using osu.Game.Graphics;
 using osu.Game.Modes.Catch.Mods;
 using osu.Game.Modes.Catch.UI;
 using osu.Game.Modes.Mods;
-using osu.Game.Modes.Objects;
 using osu.Game.Modes.UI;
 using osu.Game.Screens.Play;
 using System.Collections.Generic;
@@ -88,10 +87,8 @@ namespace osu.Game.Modes.Catch
             new KeyCounterMouse(MouseButton.Right)
         };
 
-        public override ScoreProcessor CreateScoreProcessor(int hitObjectCount = 0) => null;
-
-        public override HitObjectParser CreateHitObjectParser() => new NullHitObjectParser();
-
         public override DifficultyCalculator CreateDifficultyCalculator(Beatmap beatmap) => new CatchDifficultyCalculator(beatmap);
+
+        public override ScoreProcessor CreateScoreProcessor() => new CatchScoreProcessor();
     }
 }

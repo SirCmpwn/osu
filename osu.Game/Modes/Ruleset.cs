@@ -4,7 +4,6 @@
 using osu.Game.Beatmaps;
 using osu.Game.Graphics;
 using osu.Game.Modes.Mods;
-using osu.Game.Modes.Objects;
 using osu.Game.Modes.UI;
 using osu.Game.Screens.Play;
 using System;
@@ -30,13 +29,11 @@ namespace osu.Game.Modes
 
         public abstract IEnumerable<Mod> GetModsFor(ModType type);
 
-        public abstract ScoreProcessor CreateScoreProcessor(int hitObjectCount = 0);
-
         public abstract HitRenderer CreateHitRendererWith(WorkingBeatmap beatmap);
 
-        public abstract HitObjectParser CreateHitObjectParser();
-
         public abstract DifficultyCalculator CreateDifficultyCalculator(Beatmap beatmap);
+
+        public abstract ScoreProcessor CreateScoreProcessor();
 
         public static void Register(Ruleset ruleset) => availableRulesets.TryAdd(ruleset.PlayMode, ruleset.GetType());
 
