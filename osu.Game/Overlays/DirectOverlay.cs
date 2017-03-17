@@ -34,7 +34,7 @@ namespace osu.Game.Overlays
                     Children = new Drawable[]
                     {
                         new Header(),
-                        new Search(),
+                        new SearchControl(),
                     }
                 }
             };

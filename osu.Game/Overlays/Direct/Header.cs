@@ -22,13 +22,13 @@ namespace osu.Game.Overlays.Direct
 
         private enum DirectTab
         {
-            Search,
             [Description("Newest Maps")]
             New,
             [Description("Top Rated")]
             Top,
             [Description("Most Played")]
             MostPlayed,
+            Search,
         }
         
         [BackgroundDependencyLoader(permitNulls: true)]

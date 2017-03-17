@@ -328,7 +328,7 @@
     <Compile Include="Overlays\DirectOverlay.cs" />
     <Compile Include="Overlays\Direct\Header.cs" />
     <Compile Include="Overlays\Direct\DirectTriangles.cs" />
-    <Compile Include="Overlays\Direct\Search.cs" />
+    <Compile Include="Overlays\Direct\SearchControl.cs" />
     <Compile Include="Screens\Play\PauseOverlay.cs" />
     <Compile Include="Screens\Play\Pause\PauseProgressBar.cs" />
     <Compile Include="Screens\Play\Pause\PauseProgressGraph.cs" />

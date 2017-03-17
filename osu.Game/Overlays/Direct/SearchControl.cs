@@ -7,6 +7,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Primitives;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Graphics.UserInterface;
 using osu.Game.Graphics;
 using osu.Game.Graphics.UserInterface;
 using osu.Game.Modes;
@@ -14,13 +15,23 @@ using osu.Game.Screens.Select;
 
 namespace osu.Game.Overlays.Direct
 {
-    public class Search : Container
+    public class SearchControl : Container
     {
-        public Search()
+        public SearchControl()
         {
             RelativeSizeAxes = Axes.X;
             AutoSizeAxes = Axes.Y;
         }
+
+        public Action CriteriaChanged;
+
+        public string Search => searchTextBox.Text;
+        public FilterCriteria Filter => filterDropDown.SelectedValue;
+        public SortCriteria Sort => sortTabs.SelectedItem;
+
+        private SearchTextBox searchTextBox;
+        private DropDownMenu<FilterCriteria> filterDropDown;
+        private TabControl<SortCriteria> sortTabs;
         
         public enum SortCriteria
         {
@@ -70,7 +81,8 @@ namespace osu.Game.Overlays.Direct
                     {
                         new SearchTextBox
                         {
-                            RelativeSizeAxes = Axes.X
+                            RelativeSizeAxes = Axes.X,
+                            OnChange = (s, e) => CriteriaChanged?.Invoke(),
                         },
                         new FillFlowContainer
                         {
@@ -92,19 +104,19 @@ namespace osu.Game.Overlays.Direct
                             RelativeSizeAxes = Axes.X,
                             Children = new Drawable[]
                             {
-                                new DirectTabControl<SortCriteria>
+                                sortTabs = new DirectTabControl<SortCriteria>
                                 {
                                     RelativeSizeAxes = Axes.X,
                                     Width = 0.5f,
                                     BorderColour = colours.Yellow,
                                     BorderHeight = 4,
                                 },
-                                new SlimDropDownMenu<FilterCriteria>
+                                filterDropDown = new SlimDropDownMenu<FilterCriteria>
                                 {
                                     Width = 200,
                                     Anchor = Anchor.TopRight,
                                     Origin = Anchor.TopRight,
-                                    SelectedValue = FilterCriteria.Ranked
+                                    SelectedValue = FilterCriteria.Ranked,
                                 },
                             }
                         }
@@ -119,6 +131,8 @@ namespace osu.Game.Overlays.Direct
                     Height = 1,
                 },
             };
+            filterDropDown.ValueChanged += (sender, e) => CriteriaChanged?.Invoke();
+            sortTabs.ItemChanged += (sender, e) => CriteriaChanged?.Invoke();
         }
 
         private class ModeToggleButton : ClickableContainer
