@@ -46,7 +46,7 @@ namespace osu.Game.Overlays.Direct
                     Direction = FillDirection.Vertical,
                     RelativeSizeAxes = Axes.X,
                     AutoSizeAxes = Axes.Y,
-                    Margin = new MarginPadding
+                    Padding = new MarginPadding
                     {
                         Left = DirectOverlay.HORIZONTAL_MARGIN,
                         Right = DirectOverlay.HORIZONTAL_MARGIN

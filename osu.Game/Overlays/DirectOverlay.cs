@@ -10,15 +10,23 @@ using osu.Game.Overlays.Direct;
 
 namespace osu.Game.Overlays
 {
-    public class DirectOverlay : FocusedOverlayContainer
+    public class DirectOverlay : WaveOverlayContainer
     {
         public const float TRANSITION_LENGTH = 600;
         
         internal const int HORIZONTAL_MARGIN = 75;
+
+        private Container<Drawable> upperContainer;
+        private ScrollContainer resultsContainer;
     
         public DirectOverlay()
         {
-            RelativeSizeAxes = Axes.Both;
+            FirstWaveColour = OsuColour.FromHex(@"19b0e2");
+            SecondWaveColour = OsuColour.FromHex(@"2280a2");
+            ThirdWaveColour = OsuColour.FromHex(@"005774");
+            FourthWaveColour = OsuColour.FromHex(@"003a4e");
+            
+            Content.RelativeSizeAxes = RelativeSizeAxes = Axes.Both;
             Children = new Drawable[]
             {
                 new Box
@@ -28,16 +36,32 @@ namespace osu.Game.Overlays
                     Colour = OsuColour.FromHex(@"445568")
                 },
                 new DirectTriangles { RelativeSizeAxes = Axes.Both },
-                new FillFlowContainer
+                upperContainer = new FillFlowContainer
                 {
-                    RelativeSizeAxes = Axes.Both,
+                    RelativeSizeAxes = Axes.X,
+                    AutoSizeAxes = Axes.Y,
                     Children = new Drawable[]
                     {
                         new Header(),
                         new SearchControl(),
                     }
-                }
+                },
+                resultsContainer = new ScrollContainer
+                {
+                    RelativeSizeAxes = Axes.Both,
+                    Children = new[]
+                    {
+                        new BeatmapList()
+                    }
+                },
             };
+        }
+        
+        protected override void UpdateAfterChildren()
+        {
+            base.Update();
+            resultsContainer.Margin = new MarginPadding { Top = upperContainer.DrawHeight };
+            resultsContainer.Height = 1 - upperContainer.DrawHeight / DrawHeight;
         }
         
         protected override void PopIn()

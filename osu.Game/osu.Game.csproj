@@ -362,6 +362,8 @@
     <Compile Include="Graphics\UserInterface\OsuDropDownEnumMenu.cs" />
     <Compile Include="Overlays\Direct\SlimDropDownMenu.cs" />
     <Compile Include="Overlays\Direct\DirectTabControl.cs" />
+    <Compile Include="Overlays\Direct\BeatmapPanel.cs" />
+    <Compile Include="Overlays\Direct\BeatmapList.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)\osu-framework\osu.Framework\osu.Framework.csproj">
